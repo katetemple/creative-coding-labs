@@ -11,9 +11,11 @@ function setup() {
     angleMode(DEGREES);
     noLoop();
     cleanData();
-    charts.push(new BarChart(cleanedData, "Age_Group", "Female", 200, 200, 10, 15, 2, 50, 450));
-    charts.push(new BarChart(cleanedData, "Age_Group", "Male", 200, 200, 10, 15, 2, 300, 450));
-    charts.push(new BarChart(cleanedData, "Age_Group", "Male", 150, 450, 30, 15, 2, 50, 200));
+    // charts.push(new BarChart(cleanedData, "Age_Group", "Female", 200, 200, 10, 15, 2, 50, 450));
+    // charts.push(new BarChart(cleanedData, "Age_Group", "Male", 200, 200, 10, 15, 2, 300, 450));
+    charts.push(
+        new BarChart(cleanedData, "horizontal", "Age_Group", "Male", 400, 450, 30, 15, 2, 300, 500)
+    );
 }
 
 function draw() {
