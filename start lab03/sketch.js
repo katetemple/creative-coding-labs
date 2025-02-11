@@ -11,10 +11,6 @@ function setup() {
     angleMode(DEGREES);
     noLoop();
     cleanData();
-    // charts.push(
-    //     new BarChart(cleanedData, "vertical", "Age_Group", "Female", 300, 500, 30, 15, 2, 300, 850)
-    // );
-    // charts.push(new BarChart(cleanedData, "Age_Group", "Male", 200, 200, 10, 15, 2, 300, 450));
     charts.push(
         new BarChart({
             data: cleanedData,
@@ -28,20 +24,8 @@ function setup() {
             axisThickness: 2,
             chartPosX: 300,
             chartPosY: 500,
+            numTicks: 5,
         }),
-        // new BarChart({
-        //     data: cleanedData,
-        //     chartOrientation: "vertical",
-        //     xValue: "Age_Group",
-        //     yValue: "Male",
-        //     chartHeight: 400,
-        //     chartWidth: 450,
-        //     barWidth: 30,
-        //     margin: 15,
-        //     axisThickness: 2,
-        //     chartPosX: 300,
-        //     chartPosY: 500,
-        // }),
         new BarChart({
             data: cleanedData,
             chartOrientation: "vertical",
@@ -60,7 +44,12 @@ function setup() {
 
 function draw() {
     background(220);
-    charts.forEach((chart) => chart.render());
+    charts.forEach((chart) => {
+        chart.renderAxis();
+        chart.renderBars();
+        chart.renderLabels();
+        chart.renderTicks();
+    });
 }
 
 function cleanData() {
