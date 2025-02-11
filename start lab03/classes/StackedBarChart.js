@@ -51,15 +51,17 @@ class StackedBarChart {
             noStroke();
             rect(xPos, 0, this.barWidth, -(this.data[i][this.yValue] * this.scaler));
 
-            fill(this.axisTextColour);
-            textAlign(LEFT);
-            textStyle(BOLD);
-            textSize(13);
-            push();
-            translate(xPos + this.barWidth / 2, 15);
-            rotate(60);
-            text(this.data[i][this.xValue], 0, 0);
-            pop();
+            
+
+            // fill(this.axisTextColour);
+            // textAlign(LEFT);
+            // textStyle(BOLD);
+            // textSize(13);
+            // push();
+            // translate(xPos + this.barWidth / 2, 15);
+            // rotate(60);
+            // text(this.data[i][this.xValue], 0, 0);
+            // pop();
         }
         pop();
         pop();

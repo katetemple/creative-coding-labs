@@ -7,14 +7,54 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(800, 600);
+    createCanvas(1400, 1400);
     angleMode(DEGREES);
     noLoop();
     cleanData();
-    // charts.push(new BarChart(cleanedData, "Age_Group", "Female", 200, 200, 10, 15, 2, 50, 450));
+    // charts.push(
+    //     new BarChart(cleanedData, "vertical", "Age_Group", "Female", 300, 500, 30, 15, 2, 300, 850)
+    // );
     // charts.push(new BarChart(cleanedData, "Age_Group", "Male", 200, 200, 10, 15, 2, 300, 450));
     charts.push(
-        new BarChart(cleanedData, "horizontal", "Age_Group", "Male", 400, 450, 30, 15, 2, 300, 500)
+        new BarChart({
+            data: cleanedData,
+            chartOrientation: "horizontal",
+            xValue: "Age_Group",
+            yValue: "Male",
+            chartHeight: 400,
+            chartWidth: 450,
+            barWidth: 30,
+            margin: 15,
+            axisThickness: 2,
+            chartPosX: 300,
+            chartPosY: 500,
+        }),
+        // new BarChart({
+        //     data: cleanedData,
+        //     chartOrientation: "vertical",
+        //     xValue: "Age_Group",
+        //     yValue: "Male",
+        //     chartHeight: 400,
+        //     chartWidth: 450,
+        //     barWidth: 30,
+        //     margin: 15,
+        //     axisThickness: 2,
+        //     chartPosX: 300,
+        //     chartPosY: 500,
+        // }),
+        new BarChart({
+            data: cleanedData,
+            chartOrientation: "vertical",
+            xValue: "Age_Group",
+            yValue: "Female",
+            chartHeight: 400,
+            chartWidth: 450,
+            barWidth: 30,
+            margin: 15,
+            axisThickness: 2,
+            chartPosX: 300,
+            chartPosY: 1000,
+        })
     );
 }
 
