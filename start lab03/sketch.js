@@ -12,43 +12,59 @@ function setup() {
     noLoop();
     cleanData();
     charts.push(
-        new BarChart({
-            data: cleanedData,
-            chartOrientation: "horizontal",
-            xValue: "Age_Group",
-            yValue: "Male",
-            chartHeight: 400,
-            chartWidth: 450,
-            barWidth: 30,
-            margin: 15,
-            axisThickness: 2,
-            chartPosX: 300,
-            chartPosY: 500,
-            numTicks: 5,
-        }),
-        new BarChart({
-            data: cleanedData,
-            chartOrientation: "vertical",
-            xValue: "Age_Group",
-            yValue: "Female",
-            chartHeight: 400,
-            chartWidth: 450,
-            barWidth: 30,
-            margin: 15,
-            axisThickness: 2,
-            chartPosX: 300,
-            chartPosY: 1000,
-        })
+        // new BarChart({
+        //     data: cleanedData,
+        //     chartOrientation: "horizontal",
+        //     xValue: "Age_Group",
+        //     yValue: "Male",
+        //     chartHeight: 400,
+        //     chartWidth: 450,
+        //     barWidth: 30,
+        //     margin: 15,
+        //     axisThickness: 2,
+        //     chartPosX: 300,
+        //     chartPosY: 500,
+        //     numTicks: 8,
+        // }),
+        // new BarChart({
+        //     data: cleanedData,
+        //     xValue: "Age_Group",
+        //     yValue: "Female",
+        //     chartHeight: 400,
+        //     chartWidth: 450,
+        //     barWidth: 30,
+        //     margin: 15,
+        //     axisThickness: 2,
+        //     chartPosX: 300,
+        //     chartPosY: 1000,
+        //     numTicks: 8,
+        // })
+        new StackedBarChart({
+                data: cleanedData,
+                xValue: "Age_Group",
+                yValues: ["Male", "Female"],
+                yValueTotal: "Total",
+                chartHeight: 400,
+                chartWidth: 450,
+                barWidth: 30,
+                margin: 15,
+                axisThickness: 2,
+                chartPosX: 300,
+                chartPosY: 1000,
+                numTicks: 8,
+            })
     );
 }
 
 function draw() {
-    background(220);
+    background(43, 48, 64);
     charts.forEach((chart) => {
+        chart.renderGridLines();
         chart.renderAxis();
         chart.renderBars();
         chart.renderLabels();
         chart.renderTicks();
+        chart.renderTitle();
     });
 }
 
@@ -62,28 +78,27 @@ function cleanData() {
         cleanedData[i].Male = parseInt(cleanedData[i].Male);
         cleanedData[i].Total = parseInt(cleanedData[i].Total);
     }
-
-    // let femaleAges = [];
-    // FOR LOOP
-    // for (i = 0; i < cleanedData.length; i++) {
-    //     // console.log(i);
-    //     femaleAges.push(cleanedData[i].Female);
-    //     console.log(femaleAges);
-    // }
-
-    // FOREACH LOOP
-    // cleanedData.forEach(function (row) {
-    //     femaleAges.push(row.Female);
-    // });
-
-    // ARROW FUNCTION
-    //
-
-    // let femaleAges = cleanedData.map(function (row) {
-    //     return row.Female;
-    // });
 }
 
+// let femaleAges = [];
+// FOR LOOP
+// for (i = 0; i < cleanedData.length; i++) {
+//     // console.log(i);
+//     femaleAges.push(cleanedData[i].Female);
+//     console.log(femaleAges);
+// }
+
+// FOREACH LOOP
+// cleanedData.forEach(function (row) {
+//     femaleAges.push(row.Female);
+// });
+
+// ARROW FUNCTION
+//
+
+// let femaleAges = cleanedData.map(function (row) {
+//     return row.Female;
+// });
 // let friends = [];
 // friends.push(new Friend("Joe", 200));
 // friends.push(new Friend("Brian", 238));
