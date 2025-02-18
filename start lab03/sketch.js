@@ -54,6 +54,9 @@ function setup() {
                 numTicks: 8,
             })
     );
+
+    let maxValue = max(cleanedData.map(row => row.Total));
+    console.log(maxValue);
 }
 
 function draw() {
@@ -65,6 +68,7 @@ function draw() {
         chart.renderLabels();
         chart.renderTicks();
         chart.renderTitle();
+        chart.renderKey();
     });
 }
 
