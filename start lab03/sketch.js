@@ -26,19 +26,6 @@ function setup() {
         //     chartPosY: 500,
         //     numTicks: 8,
         // }),
-        // new BarChart({
-        //     data: cleanedData,
-        //     xValue: "Age_Group",
-        //     yValue: "Female",
-        //     chartHeight: 400,
-        //     chartWidth: 450,
-        //     barWidth: 30,
-        //     margin: 15,
-        //     axisThickness: 2,
-        //     chartPosX: 300,
-        //     chartPosY: 1000,
-        //     numTicks: 8,
-        // })
         new StackedBarChart({
                 data: cleanedData,
                 xValue: "Age_Group",
@@ -50,9 +37,16 @@ function setup() {
                 margin: 15,
                 axisThickness: 2,
                 chartPosX: 300,
-                chartPosY: 1000,
+                chartPosY: 1200,
                 numTicks: 8,
-            })
+            }),
+        new RadialHistogram({
+            data: cleanedData,
+            chartPosX: 500,
+            chartPosY: 400,
+            xValue: "Age_Group",
+            yValue: "Female",
+        })
     );
 
     let maxValue = max(cleanedData.map(row => row.Total));
@@ -62,15 +56,17 @@ function setup() {
 function draw() {
     background(43, 48, 64);
     charts.forEach((chart) => {
-        chart.renderGridLines();
-        chart.renderAxis();
-        chart.renderBars();
-        chart.renderLabels();
-        chart.renderTicks();
-        chart.renderTitle();
-        chart.renderKey();
+        chart.render();
     });
 }
+
+// chart.renderGridLines();
+//         chart.renderAxis();
+//         chart.renderBars();
+//         chart.renderLabels();
+//         chart.renderTicks();
+//         chart.renderTitle();
+//         chart.renderKey();
 
 function cleanData() {
     for (i = 0; i < data.rows.length; i++) {

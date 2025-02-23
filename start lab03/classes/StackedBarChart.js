@@ -1,8 +1,8 @@
 class StackedBarChart {
     constructor(obj) {
         this.data = obj.data;
-        this.chartOrientation = obj.chartOrientation || "vertical";
-        this.chartType = obj.chartType || "100%";
+        this.chartOrientation = obj.chartOrientation || "horizontal";
+        this.chartType = obj.chartType || "absolute";
         this.xValue = obj.xValue;
         this.yValues = obj.yValues; // Array of property names for each of the stacked segments
         this.yValueTotal = obj.yValueTotal || "Total";
@@ -44,38 +44,79 @@ class StackedBarChart {
         this.barColours = [color(222, 222, 222), color(64, 143, 227)];
     }
 
+    render() {
+        this.renderGridLines();
+        this.renderBars();
+        this.renderAxis();
+        this.renderLabels();
+        this.renderTicks();
+        this.renderTitle();
+        this.renderKey();
+    }
+
     renderBars() {
         push();
             translate(this.chartPosX, this.chartPosY);
 
-            push();
-                translate(this.margin,0);
+            if (this.chartOrientation === "vertical") {
+                push();
+                    translate(this.margin,0);
 
-                // Loop through each bar
-                for (let i = 0; i < this.data.length; i++) {
-                    let xPos = (this.barWidth + this.gap) * i;
-                    push();
-                        translate(xPos, 0)
-                        // For each bar, stack each segment
-                        for (let j = 0; j < this.yValues.length; j++) {
-                            // styles
-                            fill(this.barColours[j]);
-                            noStroke();
+                    // Loop through each bar
+                    for (let i = 0; i < this.data.length; i++) {
+                        let xPos = (this.barWidth + this.gap) * i;
+                        push();
+                            translate(xPos, 0)
+                            // For each bar, stack each segment
+                            for (let j = 0; j < this.yValues.length; j++) {
+                                // styles
+                                fill(this.barColours[j]);
+                                noStroke();
 
-                            let segmentValue;
-                            if (this.chartType === "absolute") {
-                                segmentValue = this.data[i][this.yValues[j]] * this.scaler;
-                            } else {
-                                segmentValue = (this.data[i][this.yValues[j]] / this.data[i][this.yValueTotal]) * 100 * this.scaler; // divide SV by total to get fraction
+                                let segmentValue;
+                                if (this.chartType === "absolute") {
+                                    segmentValue = this.data[i][this.yValues[j]] * this.scaler;
+                                } else {
+                                    segmentValue = (this.data[i][this.yValues[j]] / this.data[i][this.yValueTotal]) * 100 * this.scaler; // divide SV by total to get fraction
+                                }
+                                
+                                rect(0, 0, this.barWidth, -segmentValue);
+                                translate(0, -segmentValue);
+                                
                             }
-                            
-                            rect(0, 0, this.barWidth, -segmentValue);
-                            translate(0, -segmentValue);
-                            
-                        }
-                    pop();
-                }
-            pop();
+                        pop();
+                    }
+                pop();
+            } else {
+                push();
+                    translate(0, -this.margin);
+
+                    // Loop through each bar
+                    for (let i = 0; i < this.data.length; i++) {
+                        let yPos = -((this.barWidth + this.gap) * i);
+                        push();
+                            translate(0, yPos)
+                            // For each bar, stack each segment
+                            for (let j = 0; j < this.yValues.length; j++) {
+                                // styles
+                                fill(this.barColours[j]);
+                                noStroke();
+
+                                let segmentValue;
+                                if (this.chartType === "absolute") {
+                                    segmentValue = this.data[i][this.yValues[j]] * this.scaler;
+                                } else {
+                                    segmentValue = (this.data[i][this.yValues[j]] / this.data[i][this.yValueTotal]) * 100 * this.scaler; // divide SV by total to get fraction
+                                }
+                                
+                                rect(0, 0, segmentValue, -this.barWidth);
+                                translate(segmentValue, 0);
+                                
+                            }
+                        pop();
+                    }
+                pop();    
+            }
 
         pop();
     }
@@ -160,15 +201,27 @@ class StackedBarChart {
                 pop();
 
                 // X axis Lables
-                for (let i = 0; i <= this.numTicks; i++) {
-                    let xPos = (this.chartWidth / this.numTicks) * i;
-                    let maxValue = max(this.data.map((row) => row[this.yValue]));
-                    let value = round((i / this.numTicks) * maxValue);
+                if (this.chartType === "absolute") {
+                    for (let i = 0; i <= this.numTicks; i++) {
+                        let xPos = (this.chartWidth / this.numTicks) * i;
+                        let maxValue = max(this.data.map((row) => row[this.yValueTotal]));
+                        let value = round((i / this.numTicks) * maxValue);
 
-                    fill(this.axisTextColour);
-                    textAlign(CENTER);
-                    textSize(12);
-                    text(value, xPos, 30);
+                        fill(this.axisTextColour);
+                        textAlign(CENTER);
+                        textSize(12);
+                        text(value, xPos, 30);
+                    }
+                } else {
+                    for (let i = 0; i <= this.numTicks; i++) {
+                        let xPos = (this.chartWidth / this.numTicks) * i;
+                        let value = (i / this.numTicks) * 100;
+
+                        fill(this.axisTextColour);
+                        textAlign(CENTER);
+                        textSize(12);
+                        text(value + "%", xPos, 25);
+                    }
                 }
             }
         pop();

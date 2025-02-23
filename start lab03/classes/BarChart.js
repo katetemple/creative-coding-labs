@@ -34,6 +34,15 @@ class BarChart {
         this.titleColour = color(222, 222, 222);
     }
 
+    render() {
+        this.renderBars();
+        this.renderAxis();
+        this.renderLabels();
+        this.renderTicks();
+        this.renderTitle();
+        this.renderGridLines();
+    }
+
     renderBars() {
         push();
             translate(this.chartPosX, this.chartPosY);
