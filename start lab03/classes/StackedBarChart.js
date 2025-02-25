@@ -1,7 +1,7 @@
 class StackedBarChart {
     constructor(obj) {
         this.data = obj.data;
-        this.chartOrientation = obj.chartOrientation || "horizontal";
+        this.chartOrientation = obj.chartOrientation || "vertical";
         this.chartType = obj.chartType || "absolute";
         this.xValue = obj.xValue;
         this.yValues = obj.yValues; // Array of property names for each of the stacked segments
@@ -41,7 +41,7 @@ class StackedBarChart {
         this.tickColour = color(143, 143, 143);
         this.gridLineColour = color(94, 94, 94);
         this.titleColour = color(222, 222, 222);
-        this.barColours = [color(222, 222, 222), color(64, 143, 227)];
+        this.barColours = [color(93,170,217), color(254,163,27), color(241,50,102), color(125,68,147), color(151,194,45), color(36,127,183)];
     }
 
     render() {
@@ -152,7 +152,7 @@ class StackedBarChart {
                     for (let i = 0; i <= this.numTicks; i++) {
                         let yPos = (this.chartHeight / this.numTicks) * i;
                         let maxValue = max(this.data.map((row) => row[this.yValueTotal]));
-                        let value = round((i / this.numTicks) * maxValue);
+                        let value = Math.round((i / this.numTicks) * maxValue);
 
                         text(value, -15, -yPos);
                     }
@@ -160,7 +160,7 @@ class StackedBarChart {
                     // For 100% chart, max value is always 100%
                     for (let i = 0; i <= this.numTicks; i++) {
                         let yPos = (this.chartHeight / this.numTicks) * i;
-                        let value = (i / this.numTicks) * 100;
+                        let value = Math.round((i / this.numTicks) * 100);
 
                         text(value + "%", -15, -yPos);
                     }
@@ -173,10 +173,10 @@ class StackedBarChart {
 
                     push();
                         translate(xPos + this.barWidth / 2, 15);
-                        rotate(60);
+                        rotate(0);
 
                         fill(this.axisTextColour);
-                        textAlign(LEFT);
+                        textAlign(CENTER);
                         textSize(13);
                         text(this.data[i][this.xValue], 0, 0);
                     pop();
@@ -205,7 +205,7 @@ class StackedBarChart {
                     for (let i = 0; i <= this.numTicks; i++) {
                         let xPos = (this.chartWidth / this.numTicks) * i;
                         let maxValue = max(this.data.map((row) => row[this.yValueTotal]));
-                        let value = round((i / this.numTicks) * maxValue);
+                        let value = Math.round((i / this.numTicks) * maxValue);
 
                         fill(this.axisTextColour);
                         textAlign(CENTER);
@@ -215,7 +215,7 @@ class StackedBarChart {
                 } else {
                     for (let i = 0; i <= this.numTicks; i++) {
                         let xPos = (this.chartWidth / this.numTicks) * i;
-                        let value = (i / this.numTicks) * 100;
+                        let value = Math.round((i / this.numTicks) * 100);
 
                         fill(this.axisTextColour);
                         textAlign(CENTER);
@@ -306,6 +306,7 @@ class StackedBarChart {
                 rect(xPos, yPos, 15, 15);
 
                 textAlign(LEFT, TOP)
+                textSize(17);
                 text(this.yValues[i], xPos + 25, yPos);
             }
 

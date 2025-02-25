@@ -14,20 +14,17 @@ class BarChart {
         this.numTicks = obj.numTicks || 5;
         this.chartTitle = obj.chartTitle || "Bar Chart";
 
+        // Calculates gap and scaler for either vertical or horizontal bar charts
         if (this.chartOrientation === "vertical") {
-            this.gap =
-                (this.chartWidth - this.data.length * this.barWidth - this.margin * 2) /
-                (this.data.length - 1);
+            this.gap = (this.chartWidth - this.data.length * this.barWidth - this.margin * 2) / (this.data.length - 1);
             this.scaler = this.chartHeight / max(this.data.map((row) => row[this.yValue])); // converts string to property
         } else {
-            this.gap =
-                (this.chartHeight - this.data.length * this.barWidth - this.margin * 2) /
-                (this.data.length - 1);
+            this.gap = (this.chartHeight - this.data.length * this.barWidth - this.margin * 2) / (this.data.length - 1);
             this.scaler = this.chartWidth / max(this.data.map((row) => row[this.yValue])); // converts string to property
         }
 
         this.axisColour = color(143, 143, 143);
-        this.barColour = color(64, 143, 227);
+        this.barColour = color(93,170,217);
         this.axisTextColour = color(222, 222, 222);
         this.tickColour = color(143, 143, 143);
         this.gridLineColour = color(94, 94, 94);
@@ -35,12 +32,13 @@ class BarChart {
     }
 
     render() {
+        // use this. so that it knows the function belongs to this class
+        this.renderGridLines();
         this.renderBars();
         this.renderAxis();
         this.renderLabels();
         this.renderTicks();
         this.renderTitle();
-        this.renderGridLines();
     }
 
     renderBars() {
@@ -75,7 +73,6 @@ class BarChart {
     renderAxis() {
         push();
             translate(this.chartPosX, this.chartPosY);
-
             // Styles
             noFill();
             stroke(this.axisColour);
@@ -92,37 +89,40 @@ class BarChart {
     renderLabels() {
         push();
             translate(this.chartPosX, this.chartPosY);
+            fill(this.axisTextColour);
+            textSize(12);
 
+            ///////////////////////////////
+            //// VERTICAL CHART LABELS ////
+            //////////////////////////////
             if (this.chartOrientation === "vertical") {
-                
-                // Y axis labels
+
+                // Y Axis labels
                 for (let i = 0; i <= this.numTicks; i++) {
                     let yPos = (this.chartHeight / this.numTicks) * i;
                     let maxValue = max(this.data.map((row) => row[this.yValue]));
                     let value = round((i / this.numTicks) * maxValue);
 
-                    fill(this.axisTextColour);
                     textAlign(RIGHT, CENTER);
-                    textSize(12);
                     text(value, -15, -yPos);
                 }
-
-                // X axis labels
+                // X Axis labels
                 translate(this.margin, 0);
                 for (let i = 0; i < this.data.length; i++) {
                     let xPos = (this.barWidth + this.gap) * i;
 
                     push();
                         translate(xPos + this.barWidth / 2, 15);
-                        rotate(60);
+                        rotate(45);
 
-                        fill(this.axisTextColour);
+
                         textAlign(LEFT);
                         textSize(13);
                         text(this.data[i][this.xValue], 0, 0);
                     pop();
                 }
 
+            //// HOR
             } else {
 
                 // Y axis Labels
@@ -131,7 +131,7 @@ class BarChart {
                     for (let i = 0; i < this.data.length; i++) {
                         let yPos = -((this.barWidth + this.gap) * i);
 
-                        fill(this.axisTextColour);
+
                         textAlign(RIGHT, CENTER);
                         textSize(13);
 
@@ -148,9 +148,7 @@ class BarChart {
                     let maxValue = max(this.data.map((row) => row[this.yValue]));
                     let value = round((i / this.numTicks) * maxValue);
 
-                    fill(this.axisTextColour);
                     textAlign(CENTER);
-                    textSize(12);
                     text(value, xPos, 30);
                 }
             }
@@ -187,13 +185,28 @@ class BarChart {
     }
 
     renderTitle() {
+        fill(this.titleColour);
+        textAlign(CENTER);
+        textSize(20);
+
+        // Chart Title
         push();
             translate(this.chartPosX, this.chartPosY);
-            fill(this.titleColour);
-            textAlign(CENTER);
-            textSize(20);
             text(this.chartTitle, this.chartWidth / 2, -this.chartHeight - 40);
         pop();
+
+        // Y Axis Title
+        push();
+            if (this.chartOrientation === "vertical") {
+                translate(this.chartPosX - 80, this.chartPosY - this.chartHeight / 2);
+                rotate(-90);
+                text(this.yValue,0, 0);
+            } else {
+                translate(this.chartPosX + this.chartWidth / 2, this.chartPosY + 80);
+                text(this.yValue,0, 0);
+            }
+        pop();
+
     }
 
     renderGridLines() {
