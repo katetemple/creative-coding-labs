@@ -36,7 +36,6 @@ class StackedBarChart {
         }
 
         this.axisColour = color(143, 143, 143);
-        this.barColour = color(64, 143, 227);
         this.axisTextColour = color(222, 222, 222);
         this.tickColour = color(143, 143, 143);
         this.gridLineColour = color(94, 94, 94);
