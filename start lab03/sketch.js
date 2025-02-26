@@ -4,60 +4,63 @@ let charts = [];
 let font;
 
 function preload() {
-    // data = loadTable("data/Combined.csv", "csv", "header");
     data = loadTable("data/GreenhouseGasEmissions.csv", "csv", "header");
     font = loadFont("fonts/Sarabun-Bold.ttf");
 }
 
 function setup() {
-    createCanvas(2000, 2500);
+    createCanvas(3800, 2500);
     angleMode(DEGREES);
     noLoop();
     cleanData();
     textFont(font);
 
-    // To select the year to filter
-    let selectedYear = 2020;
-    let filteredData = cleanedData.filter(row => row.Year == selectedYear);
-
-
     charts.push(
-        new BarChart({
+        new Chart({
             data: cleanedData,
-            chartTitle: "Transportation Emissions Over Time ('000 tonnes CO₂e)",
-            chartOrientation: "vertical",
+            chartType: "barChart",
             xValue: "Year",
-            yValue: "Transportation",
+            yValues: ["Transportation"],
             chartHeight: 400,
             chartWidth: 450,
-            barWidth: 50,
-            margin: 15,
-            axisThickness: 2,
             chartPosX: 200,
             chartPosY: 600,
-            numTicks: 6,
-        }),
-        new BarChart({
-            data: cleanedData,
-            chartTitle: "Transportation Emissions Over Time ('000 tonnes CO₂e)",
-            chartOrientation: "horizontal",
-            xValue: "Year",
-            yValue: "Transportation",
-            chartHeight: 400,
-            chartWidth: 450,
+            chartTitle: "Transportation Emissions Over Time",
+            xAxisTitle: "Year",
+            yAxisTitle: "Emmissions ('000 tonnes CO₂e)",
             barWidth: 50,
             margin: 15,
             axisThickness: 2,
+            numTicks: 6,
+        }),
+        new Chart({
+            data: cleanedData,
+            chartType: "barChart",
+            xValue: "Year",
+            yValues: ["Industry & Manufacturing"],
+            chartHeight: 400,
+            chartWidth: 450,
             chartPosX: 1000,
             chartPosY: 600,
-            numTicks: 8,
+            chartOrientation: "horizontal",
+            chartTitle: "Industry & Manufacturing Emissions Over Time",
+            xAxisTitle: "Year",
+            yAxisTitle: "Emmissions ('000 tonnes CO₂e)",
+            barWidth: 50,
+            margin: 15,
+            axisThickness: 2,
+            numTicks: 6,
         }),
-        new StackedBarChart({
+        new Chart({
             data: cleanedData,
-            chartTitle: "Greenhouse Gas Emissions by Sector (2018-2022) ('000 tonnes CO₂e)",
-            chartType: "100%",
+            chartTitle: "Greenhouse Gas Emissions by Sector (2018-2022)",
+            chartType: "stackedBarChart",
+            stackedType: "absolute",
+            chartOrientation: "vertical",
             xValue: "Year",
             yValues: ["Agriculture & Land Use", "Households & Buildings", "Transportation", "Energy Production & Supply", "Industry & Manufacturing", "Waste & Construction"],
+            xAxisTitle: "Year",
+            yAxisTitle: "Emmissions ('000 tonnes CO₂e)",
             yValueTotal: "Total",
             chartHeight: 400,
             chartWidth: 450,
@@ -66,15 +69,18 @@ function setup() {
             axisThickness: 2,
             chartPosX: 200,
             chartPosY: 1350,
-            numTicks: 4,
+            numTicks: 6,
         }),
-        new StackedBarChart({
+        new Chart({
             data: cleanedData,
-            chartTitle: "Greenhouse Gas Emissions by Sector (2018-2022) ('000 tonnes CO₂e)",
+            chartType: "stackedBarChart",
+            chartTitle: "Greenhouse Gas Emissions by Sector (2018-2022)",
             chartOrientation: "horizontal",
-            chartType: "100%",
+            stackedType: "absolute",
             xValue: "Year",
             yValues: ["Agriculture & Land Use", "Households & Buildings", "Transportation", "Energy Production & Supply", "Industry & Manufacturing", "Waste & Construction"],
+            xAxisTitle: "Year",
+            yAxisTitle: "Emmissions ('000 tonnes CO₂e)",
             yValueTotal: "Total",
             chartHeight: 400,
             chartWidth: 450,
@@ -85,47 +91,78 @@ function setup() {
             chartPosY: 1350,
             numTicks: 5,
         }),
-        
-        new RadialHistogram({
+        new Chart({
             data: cleanedData,
+            chartType: "stackedBarChart",
+            chartTitle: "Greenhouse Gas Emissions by Sector (2018-2022)",
+            chartOrientation: "vertical",
+            stackedType: "100%",
+            xValue: "Year",
+            yValues: ["Agriculture & Land Use", "Households & Buildings", "Transportation", "Energy Production & Supply", "Industry & Manufacturing", "Waste & Construction"],
+            xAxisTitle: "Year",
+            yAxisTitle: "Emmissions (%)",
+            yValueTotal: "Total",
+            chartHeight: 400,
+            chartWidth: 450,
+            barWidth: 50,
+            margin: 15,
+            axisThickness: 2,
+            chartPosX: 2000,
+            chartPosY: 1350,
+            numTicks: 5,
+        }),
+        new Chart({
+            data: cleanedData,
+            chartType: "stackedBarChart",
+            chartTitle: "Greenhouse Gas Emissions by Sector (2018-2022)",
+            chartOrientation: "horizontal",
+            stackedType: "100%",
+            xValue: "Year",
+            yValues: ["Agriculture & Land Use", "Households & Buildings", "Transportation", "Energy Production & Supply", "Industry & Manufacturing", "Waste & Construction"],
+            xAxisTitle: "Year",
+            yAxisTitle: "Emmissions (%)",
+            yValueTotal: "Total",
+            chartHeight: 400,
+            chartWidth: 450,
+            barWidth: 50,
+            margin: 15,
+            axisThickness: 2,
+            chartPosX: 2900,
+            chartPosY: 1350,
+            numTicks: 5,
+        }),
+        new Chart({
+            data: cleanedData,
+            chartType: "radialHistogram",
+            chartTitle: "Industry & Manufacturing Emissions Over Time 2018-2022 ('000 tonnes CO₂e)",
+            chartDiameter: 400, 
+            chartPosX: 400,
+            chartPosY: 2000,
+            xValue: "Year",
+            yValues: ["Industry & Manufacturing"],
+            numTicks: 3,
+        }),
+        new Chart({
+            data: cleanedData,
+            chartType: "radialHistogram",
+            chartTitle: "Transportation Emissions Over Time 2018-2022 ('000 tonnes CO₂e)",
+            chartDiameter: 400, 
             chartPosX: 1300,
             chartPosY: 2000,
             xValue: "Year",
-            yValue: "Waste & Construction",
+            yValues: ["Transportation"],
+            numTicks: 3,
         })
     );
 
-    let maxValue = max(cleanedData.map(row => row.Emissions));
-    console.log(maxValue);
 }
 
 function draw() {
-    background(43, 48, 64);
+    background(48,48,48);
     charts.forEach((chart) => {
         chart.render();
     });
 }
-
-// function cleanData() {
-//     for (i = 0; i < data.rows.length; i++) {
-//         let row = data.rows[i].obj;
-
-//         let cleanedRow = {
-//             Year: parseInt(row.Year),
-//             "Energy Production & Supply": parseInt(row["Energy Production & Supply"]),
-//             "Transportation": parseInt(row["Transportation"]),
-//             "Agriculture & Land Use": parseInt(row["Agriculture & Land Use"]),
-//             "Industry & Manufacturing": parseInt(row["Industry & Manufacturing"]),
-//             "Waste & Construction": parseInt(row["Waste & Construction"]),
-//             "Households & Buildings": parseInt(row["Households & Buildings"]),
-//         };
-
-//         cleanedData.push(cleanedRow);
-//     }
-// }
-
-
-
 
 function cleanData() {
     for (i = 0; i < data.rows.length; i++) {
@@ -149,31 +186,3 @@ function cleanData() {
                                 cleanedData[i]["Households & Buildings"] ;
     }
 }
-
-
-
-
-
-// let femaleAges = [];
-// FOR LOOP
-// for (i = 0; i < cleanedData.length; i++) {
-//     // console.log(i);
-//     femaleAges.push(cleanedData[i].Female);
-//     console.log(femaleAges);
-// }
-
-// FOREACH LOOP
-// cleanedData.forEach(function (row) {
-//     femaleAges.push(row.Female);
-// });
-
-// ARROW FUNCTION
-//
-
-// let femaleAges = cleanedData.map(function (row) {
-//     return row.Female;
-// });
-// let friends = [];
-// friends.push(new Friend("Joe", 200));
-// friends.push(new Friend("Brian", 238));
-// console.log(friends);

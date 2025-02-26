@@ -76,7 +76,6 @@ class RadialHistogram {
             translate(this.chartPosX, this.chartPosY)
             textAlign(CENTER);
             text(this.chartTitle, 0, -this.chartDiameter / 2 - 90);
-
         pop();
     }
 
